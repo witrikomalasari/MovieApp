@@ -1,3 +1,8 @@
 import {combineReducers} from 'redux';
+import {globalReducer} from './globalReducer';
 
-export const reducer = combineReducers({});
+const reducer = combineReducers({
+  globalReducer,
+});
+
+export default reducer;

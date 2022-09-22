@@ -1,4 +1,2 @@
-import colors from './Colors';
-import fonts from './Fonts';
-
-export {colors, fonts};
+export * from './Colors';
+export * from './Fonts';

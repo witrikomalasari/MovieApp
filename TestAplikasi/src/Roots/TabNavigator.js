@@ -4,9 +4,11 @@ import {Home, WatchList} from '../Pages';
 
 const TabNav = createMaterialBottomTabNavigator();
 
-export const TabNavigator = () => {
-  <TabNav.Navigator>
-    <TabNav.Screen name="Home" component={Home} />
-    <TabNav.Screen name="WatchList" component={WatchList} />
-  </TabNav.Navigator>;
+export const MainTab = () => {
+  return (
+    <TabNav.Navigator>
+      <TabNav.Screen name="Home" component={Home} />
+      <TabNav.Screen name="WatchList" component={WatchList} />
+    </TabNav.Navigator>
+  );
 };
