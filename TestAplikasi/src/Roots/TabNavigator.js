@@ -1,14 +1,16 @@
 import React from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {Home, WatchList} from '../Pages';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Home, Profile, WatchList} from '../Pages';
+import {BottomNavigator} from './../Components';
 
-const TabNav = createMaterialBottomTabNavigator();
+const TabNav = createBottomTabNavigator();
 
 export const MainTab = () => {
   return (
-    <TabNav.Navigator>
+    <TabNav.Navigator tabBar={props => <BottomNavigator {...props} />}>
       <TabNav.Screen name="Home" component={Home} />
       <TabNav.Screen name="WatchList" component={WatchList} />
+      <TabNav.Screen name="Profile" component={Profile} />
     </TabNav.Navigator>
   );
 };

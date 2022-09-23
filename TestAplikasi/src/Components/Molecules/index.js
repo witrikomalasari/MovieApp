@@ -1,3 +1,4 @@
 import Loading from './Loading';
+import BottomNavigator from './BottomNavigator';
 
-export {Loading};
+export {Loading, BottomNavigator};
