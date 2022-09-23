@@ -7,10 +7,10 @@ export const getPopularAction = () => async dispatch => {
 
   try {
     const response = await Axios.get(urlAPI);
-    // console.log(
-    //   'resultPOPULAR',
-    //   JSON.stringify(response.data.results, null, 2),
-    // );
+    console.log(
+      'resultPOPULAR',
+      JSON.stringify(response.data.results, null, 2),
+    );
 
     return dispatch({
       type: 'SET_POPULAR',
@@ -25,7 +25,7 @@ export const getNowPlayingAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const response = await Axios.get(urlAPI);
-    console.log('result NOW PLAYING', JSON.stringify(response, null, 2));
+    // console.log('result NOW PLAYING', JSON.stringify(response, null, 2));
 
     return dispatch({
       type: 'SET_NOWPLAYING',
@@ -65,3 +65,20 @@ export const getUpComingAction = () => async dispatch => {
     console.log('DATA UP COMING TIDAK DAPAT', error);
   }
 };
+
+export const getDetailMovie = movieID => async dispatch => {
+  let urlAPI = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=en-US`;
+  try {
+    const responseDetail = await Axios.get(urlAPI);
+    console.log('RESPON DETAIL', JSON.stringify(responseDetail.data, null, 2));
+
+    return dispatch({
+      type: 'SET_DETAIL_MOVIE',
+      value: responseDetail?.data,
+    });
+  } catch (error) {
+    console.log('DATA DETAIL TIDAK DAPAT', error);
+  }
+};
+
+// https://api.themoviedb.org/3/movie/157336?api_key={api_key}&append_to_response=videos

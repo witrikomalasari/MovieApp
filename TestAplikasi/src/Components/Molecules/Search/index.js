@@ -1,7 +1,10 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dialog} from 'react-native-paper';
 import {DeleteIcon, SearchIcon} from '../../../Assets';
 import {Input} from '../../Atoms';
+
+const {width, height} = Dimensions.get('window');
 
 const Search = ({
   placeholder,
@@ -18,9 +21,15 @@ const Search = ({
         value={value}
         onChangeText={onChangeText}
       />
-      <SearchIcon position="absolute" top={32} left={11} />
-      <TouchableOpacity activeOpacity={0.7} onPress={onDelete}>
-        <DeleteIcon top={30} />
+      <SearchIcon position="absolute" top={34} left={11} />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={onDelete}
+        style={{
+          paddingRight: 20,
+          alignItems: 'center',
+        }}>
+        <DeleteIcon top={35} />
       </TouchableOpacity>
     </View>
   );
@@ -29,8 +38,13 @@ const Search = ({
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
+    width,
+    backgroundColor: 'rgba(0,0,0,0)',
     marginHorizontal: 16,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 35,
+    // alignItems: 'center',
   },
 });
 

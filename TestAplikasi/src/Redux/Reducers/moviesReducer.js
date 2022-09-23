@@ -3,6 +3,7 @@ const initialState = {
   nowPlaying: [],
   topRated: [],
   upComing: [],
+  detail: [],
 };
 
 export const moviesReducer = (state = initialState, action) => {
@@ -29,6 +30,11 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         upComing: value,
+      };
+    case 'SET_DETAIL_MOVIE':
+      return {
+        ...state,
+        detail: value,
       };
   }
   return state;

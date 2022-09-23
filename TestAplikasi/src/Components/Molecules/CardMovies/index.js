@@ -50,6 +50,7 @@ const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
             data={props.data}
             renderItem={renderPoster}
             keyExtractor={(item, index) => index}
+            initialNumToRender={10}
             horizontal
             showsHorizontalScrollIndicator={false}
           />
@@ -70,7 +71,10 @@ const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
 export default CardMovies;
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: '#ffffff', marginBottom: 20},
+  container: {
+    backgroundColor: '#ffffff',
+    marginBottom: 20,
+  },
   content: {
     width: width - 270,
     height: 200,
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
     // shadowRadius: 8,
     // elevation: 14,
     overflow: 'hidden',
-    marginRight: 8,
+    marginLeft: 8,
   },
   image: {
     width: '100%',

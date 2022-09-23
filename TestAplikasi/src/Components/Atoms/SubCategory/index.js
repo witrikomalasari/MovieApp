@@ -8,6 +8,7 @@ const SubCategory = ({children, titleCategory}) => {
     <>
       <View
         style={{
+          paddingHorizontal: 8,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
