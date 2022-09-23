@@ -15,6 +15,21 @@ export const moviesReducer = (state = initialState, action) => {
         ...state,
         popular: value,
       };
+    case 'SET_NOWPLAYING':
+      return {
+        ...state,
+        nowPlaying: value,
+      };
+    case 'SET_TOPRATED':
+      return {
+        ...state,
+        topRated: value,
+      };
+    case 'SET_UPCOMING':
+      return {
+        ...state,
+        upComing: value,
+      };
   }
   return state;
 };

@@ -1,6 +1,6 @@
 export const setLoading = value => {
   return {
-    type: 'SETL_LOADING',
+    type: 'SET_LOADING',
     value,
   };
 };

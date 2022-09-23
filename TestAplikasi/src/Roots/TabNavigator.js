@@ -7,7 +7,9 @@ const TabNav = createBottomTabNavigator();
 
 export const MainTab = () => {
   return (
-    <TabNav.Navigator tabBar={props => <BottomNavigator {...props} />}>
+    <TabNav.Navigator
+      screenOptions={{headerShown: false}}
+      tabBar={props => <BottomNavigator {...props} />}>
       <TabNav.Screen name="Home" component={Home} />
       <TabNav.Screen name="WatchList" component={WatchList} />
       <TabNav.Screen name="Profile" component={Profile} />

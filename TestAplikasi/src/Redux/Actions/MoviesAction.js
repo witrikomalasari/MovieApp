@@ -1,5 +1,6 @@
-import {API_KEY, API_URL} from '../../Config/API_Host';
 import Axios from 'axios';
+import {API_KEY, API_URL} from '../../Config/API_Host';
+import {setLoading} from './globalAction';
 
 export const getPopularAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
@@ -10,6 +11,7 @@ export const getPopularAction = () => async dispatch => {
     //   'resultPOPULAR',
     //   JSON.stringify(response.data.results, null, 2),
     // );
+
     return dispatch({
       type: 'SET_POPULAR',
       value: response?.data?.results,
@@ -23,7 +25,12 @@ export const getNowPlayingAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const response = await Axios.get(urlAPI);
-    // console.log('result NOW PLAYING', JSON.stringify(response, null, 2));
+    console.log('result NOW PLAYING', JSON.stringify(response, null, 2));
+
+    return dispatch({
+      type: 'SET_NOWPLAYING',
+      value: response?.data?.results,
+    });
   } catch (error) {
     console.log('DATA NOW PLAYING TIDAK DAPAT', error);
   }
@@ -34,6 +41,11 @@ export const getTopRatedAction = () => async dispatch => {
   try {
     const response = await Axios.get(urlAPI);
     // console.log('result TOP RATED ACTION', JSON.stringify(response, null, 2));
+
+    return dispatch({
+      type: 'SET_TOPRATED',
+      value: response?.data?.results,
+    });
   } catch (error) {
     console.log('DATA TOP RATED ACTION  TIDAK DAPAT', error);
   }
@@ -44,6 +56,11 @@ export const getUpComingAction = () => async dispatch => {
   try {
     const response = await Axios.get(urlAPI);
     // console.log('RESULT UP COMING ', JSON.stringify(response, null, 2));
+
+    return dispatch({
+      type: 'SET_UPCOMING',
+      value: response?.data?.results,
+    });
   } catch (error) {
     console.log('DATA UP COMING TIDAK DAPAT', error);
   }
