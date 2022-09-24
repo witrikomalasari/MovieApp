@@ -1,11 +1,29 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {colors, fonts} from '../../Utils';
+import React, {useEffect} from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {splash} from '../../Assets';
+import {Gap} from '../../Components';
 
-const SplashScreen = () => {
+const {width, height} = Dimensions.get('window');
+
+const SplashScreen = ({navigation}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.reset({index: 0, routes: [{name: 'MainTab'}]});
+    }, 2000);
+  }, []);
+
   return (
-    <View>
-      <Text style={styles.text}>SplashScreen</Text>
+    <View style={styles.container}>
+      <ImageBackground source={splash}>
+        <Gap height={38} />
+        <Text style={styles.text}>Movie</Text>
+      </ImageBackground>
     </View>
   );
 };
@@ -13,9 +31,12 @@ const SplashScreen = () => {
 export default SplashScreen;
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    color: colors.text.primary,
-    fontFamily: fonts.primary['700'],
+  container: {
+    width,
+    height,
+    // backgroundColor: '#FFC700',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  text: {fontSize: 32, color: '#020202', fontFamily: 'Poppins-Medium'},
 });

@@ -9,16 +9,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {IMAGE_URL} from '../../../Config/API_Host';
+import {setLoading} from '../../../Redux/Actions';
 import {fonts} from '../../../Utils';
 import {Gap, SubCategory} from '../../Atoms';
 
 const {width, height} = Dimensions.get('window');
 
 const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
+  const dispatch = useDispatch;
   const [isAPIbusy, setAPIBusy] = useState(false);
 
   const handleToMovieDetail = movieId => {
+    // dispatch(setLoading(true));
     props.navigation.navigate('Detail', {
       movieId,
     });
@@ -27,7 +31,9 @@ const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
   const renderPoster = ({item}) => (
     <TouchableOpacity
       style={styles.content}
-      onPress={() => handleToMovieDetail(item.id)}>
+      onPress={() => {
+        handleToMovieDetail(item.id);
+      }}>
       <Image
         source={{
           uri: `${IMAGE_URL}${item.poster_path}`,

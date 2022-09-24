@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {
-  ActivityIndicator,
   ImageBackground,
   ScrollView,
   StyleSheet,
@@ -9,28 +8,36 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-import {IMAGE_URL} from '../../Config/API_Host';
-import {getDetailMovie} from '../../Redux/Actions/MoviesAction';
+import {ActivityIndicator} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch, useSelector} from 'react-redux';
 import {Gap} from '../../Components/Atoms';
+import {IMAGE_URL} from '../../Config/API_Host';
+import {
+  getDetailMovie,
+  getVideoMovie,
+  movieKey,
+} from '../../Redux/Actions/MoviesAction';
 
-const Detail = ({route, navigation}) => {
-  console.log('route', route.params);
+const Detail = props => {
+  console.log('route', props.route.params);
+
   const dispatch = useDispatch();
   const detailMovie = useSelector(state => state.moviesReducer.detail);
   const loading = useSelector(state => state.globalReducer);
+  const {video} = useSelector(state => state.moviesReducer);
 
-  const movieID = route.params.movieId;
+  const movieID = props.route.params.movieId;
+  const movieVideo = video.map((vid, id) => vid.key);
 
   useEffect(() => {
     dispatch(getDetailMovie(movieID));
-  }, []);
+    dispatch(getVideoMovie(movieID));
+    dispatch(movieKey(movieVideo[0]));
+    // dispatch(setLoading(false));
+  }, [movieID]);
 
-  console.log(
-    'ISI DETAIL MOVIE',
-    JSON.stringify(detailMovie.overview, null, 2),
-  );
+  console.log('ISI DETAIL', JSON.stringify(movieVideo[0], null, 2));
 
   const renderHeaderSection = () => (
     <ImageBackground
@@ -89,12 +96,10 @@ const Detail = ({route, navigation}) => {
               marginHorizontal: -75,
             },
           ]}
-          // onPress={() =>
-          //   navigation.navigate('PlayVideo', {
-          //     videos,
-          //   })
-          // }
-        >
+          onPress={async () => {
+            await dispatch(movieKey(movieVideo));
+            props.navigation.navigate('PlayVideo');
+          }}>
           <AntDesign name="caretright" color="white" size={35} />
           <Text
             style={{
@@ -118,37 +123,43 @@ const Detail = ({route, navigation}) => {
       <Gap height={20} />
     </View>
   );
-
+  // console.log('loading', loading);
   return (
-    <View>
-      <ScrollView
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          // paddingHorizontal: 5,
-          paddingBottom: 40,
-        }}>
-        {renderHeaderSection()}
+    <>
+      {loading ? (
         <View>
-          <Text
-            style={{
-              fontSize: 18,
-              color: 'white',
-              fontWeight: 'bold',
-              marginVertical: 10,
+          <ScrollView
+            contentContainerStyle={{
+              backgroundColor: 'white',
+              // paddingHorizontal: 5,
+              paddingBottom: 40,
             }}>
-            Overview
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: 'black',
-              textAlign: 'justify',
-            }}>
-            {detailMovie.overview}
-          </Text>
+            {renderHeaderSection()}
+            <View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  marginVertical: 10,
+                }}>
+                Overview
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: 'black',
+                  textAlign: 'justify',
+                }}>
+                {detailMovie.overview}
+              </Text>
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-    </View>
+      ) : (
+        <ActivityIndicator />
+      )}
+    </>
   );
 };
 

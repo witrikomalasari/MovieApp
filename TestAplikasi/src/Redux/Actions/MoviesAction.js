@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import {API_KEY, API_URL} from '../../Config/API_Host';
-import {setLoading} from './globalAction';
 
 export const getPopularAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
@@ -81,4 +80,31 @@ export const getDetailMovie = movieID => async dispatch => {
   }
 };
 
-// https://api.themoviedb.org/3/movie/157336?api_key={api_key}&append_to_response=videos
+export const getVideoMovie = movieID => async dispatch => {
+  let urlAPI = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&append_to_response=videos`;
+  try {
+    const responseVideo = await Axios.get(urlAPI);
+    // console.log(
+    //   'HASIL VIDEO',
+    //   JSON.stringify(responseVideo.data.videos.results, null, 2),
+    // );
+    return dispatch({
+      type: 'SET_VIDEO',
+      value: responseVideo.data.videos.results,
+    });
+  } catch (error) {
+    console.log('data video tidak dapat', error);
+  }
+};
+
+export const movieKey = videoID => async dispatch => {
+  console.log('ini llladfa', videoID);
+  try {
+    return await dispatch({
+      type: 'SET_ID_VIDEO',
+      value: videoID,
+    });
+  } catch (error) {
+    console.log('video tuk playvideo tidak dapat', error);
+  }
+};

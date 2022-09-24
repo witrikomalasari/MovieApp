@@ -1,10 +1,9 @@
 import React from 'react';
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Dialog} from 'react-native-paper';
 import {DeleteIcon, SearchIcon} from '../../../Assets';
 import {Input} from '../../Atoms';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Search = ({
   placeholder,

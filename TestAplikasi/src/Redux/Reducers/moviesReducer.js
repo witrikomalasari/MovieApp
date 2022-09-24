@@ -4,6 +4,8 @@ const initialState = {
   topRated: [],
   upComing: [],
   detail: [],
+  video: [],
+  movieId: [],
 };
 
 export const moviesReducer = (state = initialState, action) => {
@@ -35,6 +37,16 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         detail: value,
+      };
+    case 'SET_VIDEO':
+      return {
+        ...state,
+        video: value,
+      };
+    case 'SET_ID_VIDEO':
+      return {
+        ...state,
+        movieId: value,
       };
   }
   return state;
