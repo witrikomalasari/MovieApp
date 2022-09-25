@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { CardMovies, CarouselRN, Gap, Header, Loading } from '../../Components';
-import { IMAGE_URL } from '../../Config/API_Host';
+import {useDispatch, useSelector} from 'react-redux';
+import {CardMovies, CarouselRN, Gap, Header, Loading} from '../../Components';
+import {IMAGE_URL} from '../../Config/API_Host';
 import {
   getNowPlayingAction,
   getPopularAction,
   getTopRatedAction,
-  getUpComingAction
+  getUpComingAction,
 } from '../../Redux/Actions';
-import { colors } from '../../Utils';
+import {colors} from '../../Utils';
 
 const {height} = Dimensions.get('window');
 
@@ -25,7 +25,7 @@ const Home = props => {
   const [searchTextInput, setSearchTextInput] = useState('');
   const [movieCarousel, setMovieCarousel] = useState([]);
   const loading = useSelector(state => state.globalReducer.isLoading);
-const auth= useSelector(state+)
+  const auth = useSelector(state);
   const [indexCarousel, setIndexCarousel] = useState();
   const movies = [
     {
@@ -43,10 +43,7 @@ const auth= useSelector(state+)
     },
   ];
 
-  useEffect(() => {
-    
-  }, [third])
-  
+  useEffect(() => {}, [third]);
 
   useEffect(() => {
     handleMovieForCarousel();
