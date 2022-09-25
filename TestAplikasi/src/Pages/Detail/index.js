@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -8,9 +8,9 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {ActivityIndicator} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
+import {ModalRN} from '../../Components';
 import {Gap} from '../../Components/Atoms';
 import {IMAGE_URL} from '../../Config/API_Host';
 import {
@@ -18,26 +18,27 @@ import {
   getVideoMovie,
   movieKey,
 } from '../../Redux/Actions/MoviesAction';
+import {colors, fonts} from '../../Utils';
 
 const Detail = props => {
-  console.log('route', props.route.params);
-
   const dispatch = useDispatch();
   const detailMovie = useSelector(state => state.moviesReducer.detail);
   const loading = useSelector(state => state.globalReducer);
   const {video} = useSelector(state => state.moviesReducer);
 
+  const [rating, setIsLike] = useState();
+  const [isShow, setIsShow] = useState(false);
+
   const movieID = props.route.params.movieId;
-  const movieVideo = video.map((vid, id) => vid.key);
+  const movieVideo = video.map(vid => vid.key);
 
   useEffect(() => {
     dispatch(getDetailMovie(movieID));
     dispatch(getVideoMovie(movieID));
-    dispatch(movieKey(movieVideo[0]));
-    // dispatch(setLoading(false));
+    // dispatch(movieKey(movieVideo[0]));
   }, [movieID]);
 
-  console.log('ISI DETAIL', JSON.stringify(movieVideo[0], null, 2));
+  console.log('movieVideo', movieVideo[0]);
 
   const renderHeaderSection = () => (
     <ImageBackground
@@ -60,7 +61,7 @@ const Detail = props => {
           }}>
           <Text
             style={{
-              color: 'white',
+              color: colors.text.white,
               fontSize: 40,
               fontWeight: 'bold',
               textAlign: 'center',
@@ -73,10 +74,12 @@ const Detail = props => {
     </ImageBackground>
   );
 
+  let dataRating = detailMovie.vote_average;
+  let totalRating = Math.round(dataRating);
+
   const renderVideoAndRating = () => (
     <View
       style={{
-        // backgroundColor: 'yellow',
         marginTop: -15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -98,15 +101,16 @@ const Detail = props => {
           ]}
           onPress={async () => {
             await dispatch(movieKey(movieVideo));
+            // await dispatch(setLoading(true));
             props.navigation.navigate('PlayVideo');
           }}>
           <AntDesign name="caretright" color="white" size={35} />
           <Text
             style={{
-              color: '#fcfcfa',
+              color: colors.text.white,
+              fontFamily: fonts.primary['700'],
               fontSize: 14,
-              marginHorizontal: 5,
-              fontWeight: 'bold',
+              marginHorizontal: 8,
               textAlign: 'center',
             }}>
             Play Trailer
@@ -116,49 +120,84 @@ const Detail = props => {
       <Gap height={20} />
       <View style={styles.categoryContainer}>
         <AntDesign name="star" color="yellow" size={15} />
-        <Text style={{color: 'white', fontSize: 12, marginHorizontal: 5}}>
-          {detailMovie.vote_average}
+        <Text
+          style={{color: colors.text.white, fontSize: 12, marginHorizontal: 5}}>
+          {totalRating}
         </Text>
       </View>
       <Gap height={20} />
     </View>
   );
-  // console.log('loading', loading);
+
   return (
     <>
-      {loading ? (
-        <View>
-          <ScrollView
-            contentContainerStyle={{
-              backgroundColor: 'white',
-              // paddingHorizontal: 5,
-              paddingBottom: 40,
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          // backgroundColor: 'green',
+          paddingBottom: 40,
+        }}>
+        {renderHeaderSection()}
+        <View style={{marginHorizontal: 10}}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
-            {renderHeaderSection()}
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: 'white',
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                }}>
-                Overview
-              </Text>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: 'black',
-                  textAlign: 'justify',
-                }}>
-                {detailMovie.overview}
-              </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: colors.text.primary,
+                fontWeight: 'bold',
+                marginVertical: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              Overview
+            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingRight: 12,
+              }}>
+              <TouchableOpacity>
+                <AntDesign
+                  name="like1"
+                  size={30}
+                  color="black"
+                  onPress={() => setIsShow(isShow)}
+                />
+                <Text
+                  style={{
+                    color: colors.text.primary,
+                    fontFamily: fonts.primary['700'],
+                    textAlign: 'center',
+                  }}>
+                  Like
+                </Text>
+              </TouchableOpacity>
             </View>
-          </ScrollView>
+          </View>
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: fonts.primary['600'],
+              color: colors.text.secondary,
+              textAlign: 'justify',
+            }}>
+            {detailMovie.overview}
+          </Text>
         </View>
-      ) : (
-        <ActivityIndicator />
-      )}
+      </ScrollView>
+      <ModalRN
+        transparant={true}
+        visible={isShow}
+        onPress={() => {
+          setIsShow(!isShow);
+        }}
+      />
     </>
   );
 };
@@ -170,7 +209,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray',
+    backgroundColor: colors.background.greyBold,
     padding: 5,
     borderRadius: 10,
     marginHorizontal: 5,

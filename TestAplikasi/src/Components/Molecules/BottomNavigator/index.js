@@ -8,6 +8,7 @@ import {
   ICwatchListOff,
   ICwatchListOn,
 } from '../../../Assets';
+import {colors} from '../../../Utils';
 
 const IconBottomTab = ({label, focus}) => {
   switch (label) {
@@ -79,7 +80,7 @@ export default BottomNavigator;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.white,
     paddingTop: 15,
     paddingBottom: 13,
     paddingHorizontal: 10,

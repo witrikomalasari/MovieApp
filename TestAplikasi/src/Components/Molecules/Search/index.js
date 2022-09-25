@@ -20,7 +20,7 @@ const Search = ({
         value={value}
         onChangeText={onChangeText}
       />
-      <SearchIcon position="absolute" top={34} left={11} />
+      <SearchIcon position="absolute" top={12} left={44} />
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={onDelete}
@@ -28,7 +28,7 @@ const Search = ({
           paddingRight: 20,
           alignItems: 'center',
         }}>
-        <DeleteIcon top={35} />
+        <DeleteIcon top={13} left={15} />
       </TouchableOpacity>
     </View>
   );
@@ -36,14 +36,11 @@ const Search = ({
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     width,
-    backgroundColor: 'rgba(0,0,0,0)',
-    marginHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 35,
-    // alignItems: 'center',
+    paddingRight: 8,
   },
 });
 

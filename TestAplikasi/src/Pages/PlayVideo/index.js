@@ -1,17 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Alert, Button, View} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Gap} from '../../Components';
-import {movieID, setLoading} from '../../Redux/Actions';
+import {colors} from '../../Utils';
 
-export default function App() {
-  const dispatch = useDispatch();
+const PlayVideo = () => {
   const movieKey = useSelector(state => state.moviesReducer.movieId);
   const [playing, setPlaying] = useState(false);
   const loading = useSelector(state => state.globalReducer);
-
-  console.log('ini videokey', JSON.stringify(movieKey, null, 2));
 
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
@@ -24,8 +21,10 @@ export default function App() {
     setPlaying(prev => !prev);
   }, []);
 
+  // console.log('movieKey', movieKey);
+
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
+    <View style={{flex: 1, backgroundColor: '#020202'}}>
       <Gap height={20} />
       <YoutubePlayer
         height={200}
@@ -33,9 +32,16 @@ export default function App() {
         videoId={
           movieKey.length > 0 ? movieKey[1] : 'Trailer Video Tidak Tersedia'
         }
+        // playList={[movieKey[0], movieKey[1]]}
         onChangeState={onStateChange}
       />
-      <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} />
+      <Button
+        color={colors.background.primary}
+        title={playing ? 'pause' : 'play'}
+        onPress={togglePlaying}
+      />
     </View>
   );
-}
+};
+
+export default PlayVideo;

@@ -1,12 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {colors, fonts} from '../../../Utils';
 
-const Loading = () => {
+const {width} = Dimensions.get('window');
+const Loading = ({size}) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={colors.loading} />
+      <ActivityIndicator size={size} color={colors.loading} />
       <Text style={styles.text}>Loading...</Text>
     </View>
   );
@@ -16,8 +17,7 @@ export default Loading;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
+    width,
     height: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.1)',

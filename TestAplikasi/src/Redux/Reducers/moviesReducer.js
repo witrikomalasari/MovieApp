@@ -10,7 +10,6 @@ const initialState = {
 
 export const moviesReducer = (state = initialState, action) => {
   const {type, value} = action;
-  // console.log('omo value', value);
 
   switch (type) {
     case 'SET_POPULAR':

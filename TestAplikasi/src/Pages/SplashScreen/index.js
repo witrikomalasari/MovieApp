@@ -1,28 +1,26 @@
 import React, {useEffect} from 'react';
-import {
-  Dimensions,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native';
 import {splash} from '../../Assets';
 import {Gap} from '../../Components';
+import {getDataLocalStorage} from '../../Utils/storage';
 
 const {width, height} = Dimensions.get('window');
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.reset({index: 0, routes: [{name: 'MainTab'}]});
+      getDataLocalStorage('token').then(res => {
+        res
+          ? navigation.reset({index: 0, routes: [{name: 'MainTab'}]})
+          : navigation.replace('Login');
+      });
     }, 2000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={splash}>
+      <ImageBackground source={splash} style={{width, height}}>
         <Gap height={38} />
-        <Text style={styles.text}>Movie</Text>
       </ImageBackground>
     </View>
   );
@@ -34,9 +32,7 @@ const styles = StyleSheet.create({
   container: {
     width,
     height,
-    // backgroundColor: '#FFC700',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {fontSize: 32, color: '#020202', fontFamily: 'Poppins-Medium'},
 });

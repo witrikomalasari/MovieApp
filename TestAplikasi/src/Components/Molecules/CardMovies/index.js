@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import moment from 'moment/moment';
+import React from 'react';
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -9,26 +9,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
 import {IMAGE_URL} from '../../../Config/API_Host';
-import {setLoading} from '../../../Redux/Actions';
-import {fonts} from '../../../Utils';
+import {colors, fonts} from '../../../Utils';
 import {Gap, SubCategory} from '../../Atoms';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
-  const dispatch = useDispatch;
-  const [isAPIbusy, setAPIBusy] = useState(false);
-
-  const handleToMovieDetail = movieId => {
+const CardMovies = props => {
+  const handleToMovieDetail = async movieId => {
     // dispatch(setLoading(true));
     props.navigation.navigate('Detail', {
       movieId,
     });
   };
 
+  const handleReleaseDate = dateTime => {
+    const releaseDate = moment(dateTime).format('ll');
+    return releaseDate;
+  };
+
   const renderPoster = ({item}) => (
+    // console.log('item', item);
     <TouchableOpacity
       style={styles.content}
       onPress={() => {
@@ -44,28 +45,28 @@ const CardMovies = ({image, titleMovie, titleCategory, ...props}) => {
       <Text style={styles.txt} numberOfLines={2} ellipsizeMode="tail">
         {item.title}
       </Text>
+      <Gap height={2} />
+      <Text style={[styles.txt, {fontSize: 11}]}>
+        {handleReleaseDate(item.release_date)}
+      </Text>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <SubCategory titleCategory={titleCategory} />
+      <SubCategory titleCategory={props.titleCategory} />
       {props.data.length > 0 ? (
-        !isAPIbusy ? (
-          <FlatList
-            data={props.data}
-            renderItem={renderPoster}
-            keyExtractor={(item, index) => index}
-            initialNumToRender={10}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        ) : (
-          <ActivityIndicator />
-        )
+        <FlatList
+          data={props.data}
+          renderItem={renderPoster}
+          keyExtractor={(item, index) => index}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: 'white', fontSize: 16}}>
+          <Text
+            style={[styles.txt, {color: colors.text.secondary, fontSize: 14}]}>
             Opps...Movie not found!
           </Text>
         </View>
@@ -78,22 +79,16 @@ export default CardMovies;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    marginBottom: 20,
+    backgroundColor: colors.background.white,
   },
   content: {
     width: width - 270,
-    height: 200,
-    backgroundColor: '#ffffff',
+    height: 210,
+    backgroundColor: colors.background.white,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    // shadowColor: 'black',
-    // shadowOffset: {width: 0, height: 7},
-    // shadowOpacity: 0.5,
-    // shadowRadius: 8,
-    // elevation: 14,
     overflow: 'hidden',
-    marginLeft: 8,
+    marginHorizontal: 6,
   },
   image: {
     width: '100%',
@@ -102,7 +97,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   txt: {
-    color: 'black',
+    color: colors.text.primary,
     fontSize: 12,
     fontFamily: fonts.primary['700'],
     textAlign: 'center',

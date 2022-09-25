@@ -6,11 +6,7 @@ export const getPopularAction = () => async dispatch => {
 
   try {
     const response = await Axios.get(urlAPI);
-    console.log(
-      'resultPOPULAR',
-      JSON.stringify(response.data.results, null, 2),
-    );
-
+    // console.log('resultPOPULAR', JSON.stringify(response, null, 2));
     return dispatch({
       type: 'SET_POPULAR',
       value: response?.data?.results,
@@ -24,7 +20,6 @@ export const getNowPlayingAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const response = await Axios.get(urlAPI);
-    // console.log('result NOW PLAYING', JSON.stringify(response, null, 2));
 
     return dispatch({
       type: 'SET_NOWPLAYING',
@@ -39,7 +34,6 @@ export const getTopRatedAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const response = await Axios.get(urlAPI);
-    // console.log('result TOP RATED ACTION', JSON.stringify(response, null, 2));
 
     return dispatch({
       type: 'SET_TOPRATED',
@@ -54,7 +48,6 @@ export const getUpComingAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const response = await Axios.get(urlAPI);
-    // console.log('RESULT UP COMING ', JSON.stringify(response, null, 2));
 
     return dispatch({
       type: 'SET_UPCOMING',
@@ -69,7 +62,6 @@ export const getDetailMovie = movieID => async dispatch => {
   let urlAPI = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=en-US`;
   try {
     const responseDetail = await Axios.get(urlAPI);
-    console.log('RESPON DETAIL', JSON.stringify(responseDetail.data, null, 2));
 
     return dispatch({
       type: 'SET_DETAIL_MOVIE',
@@ -84,10 +76,7 @@ export const getVideoMovie = movieID => async dispatch => {
   let urlAPI = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&append_to_response=videos`;
   try {
     const responseVideo = await Axios.get(urlAPI);
-    // console.log(
-    //   'HASIL VIDEO',
-    //   JSON.stringify(responseVideo.data.videos.results, null, 2),
-    // );
+
     return dispatch({
       type: 'SET_VIDEO',
       value: responseVideo.data.videos.results,
@@ -98,7 +87,6 @@ export const getVideoMovie = movieID => async dispatch => {
 };
 
 export const movieKey = videoID => async dispatch => {
-  console.log('ini llladfa', videoID);
   try {
     return await dispatch({
       type: 'SET_ID_VIDEO',

@@ -1,17 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {CardMovies, Gap, Header, Search} from '../../Components';
+import React, { useEffect, useState } from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { CardMovies, CarouselRN, Gap, Header, Loading } from '../../Components';
+import { IMAGE_URL } from '../../Config/API_Host';
 import {
   getNowPlayingAction,
   getPopularAction,
   getTopRatedAction,
-  getUpComingAction,
+  getUpComingAction
 } from '../../Redux/Actions';
+import { colors } from '../../Utils';
+
+const {height} = Dimensions.get('window');
 
 const Home = props => {
   const dispatch = useDispatch();
   const [searchTextInput, setSearchTextInput] = useState('');
+  const [movieCarousel, setMovieCarousel] = useState([]);
+  const loading = useSelector(state => state.globalReducer.isLoading);
+const auth= useSelector(state+)
+  const [indexCarousel, setIndexCarousel] = useState();
   const movies = [
     {
       title: 'TOP RATED',
@@ -29,6 +44,12 @@ const Home = props => {
   ];
 
   useEffect(() => {
+    
+  }, [third])
+  
+
+  useEffect(() => {
+    handleMovieForCarousel();
     dispatch(getTopRatedAction());
     dispatch(getPopularAction());
     dispatch(getNowPlayingAction());
@@ -36,7 +57,6 @@ const Home = props => {
   }, []);
 
   const searchByTextInput = movie => {
-    // console.log('searchByTextInput', movie);
     let filterMovies = movie.filter(mov =>
       mov.title.toLowerCase().includes(searchTextInput.toLowerCase()),
     );
@@ -44,8 +64,6 @@ const Home = props => {
   };
 
   const handleFilterMovie = movie => {
-    // console.log('handleFilterRegion', JSON.stringify(movie, null, 2));
-
     let filterMovies;
     if (searchTextInput.length > 0) {
       filterMovies = searchByTextInput(movie);
@@ -56,38 +74,96 @@ const Home = props => {
     if (!searchTextInput) {
       filterMovies = searchByTextInput(movie);
     }
-    // console.log('search ini', filterMovies);
     return filterMovies;
   };
-
-  // console.log('movie', filterMovies);
 
   const renderCardMovie = movies.map((movie, i) => (
     <CardMovies
       key={i}
       titleCategory={movie.title}
       data={
-        searchTextInput.length > 0 ? handleFilterMovie(movie.data) : movie.data
+        searchTextInput.length > 0
+          ? handleFilterMovie(movie.data)
+          : movie.data.slice(0, 10)
       }
       navigation={props.navigation}
     />
   ));
 
+  const allDataNowPlaying = movies[2].data;
+  const movieForCarousel = allDataNowPlaying.slice(0, 5);
+  // console.log('dfadER', movieForCarousel);
+
+  const handleMovieForCarousel = () => {
+    setMovieCarousel(movieForCarousel);
+  };
+
+  const renderItemCarousel = ({item, index}) => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          backgroundColor: 'green',
+        }}>
+        <ImageBackground
+          source={{uri: `${IMAGE_URL}${item.backdrop_path}`}}
+          style={{flex: 1}}>
+          <Text
+            style={{
+              color: colors.text.white,
+              fontSize: 20,
+              fontWeight: 'bold',
+              // textAlign: 'center',
+              paddingTop: 5,
+              paddingLeft: 10,
+            }}>
+            {item.title}
+          </Text>
+        </ImageBackground>
+      </View>
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.page}>
-      <Header
-        placeholder="Cari perkata (contoh: goblin)..."
-        placeholderTextColor="black"
-        value={searchTextInput}
-        onChangeText={text => {
-          // console.log('search', text);
-          setSearchTextInput(text);
-        }}
-        onDelete={() => setSearchTextInput('')}
-      />
-
-      <Gap height={8} />
-      <View style={styles.wrapperCardMovie}>{renderCardMovie}</View>
+      {!loading ? (
+        <>
+          <Header
+            placeholder="Cari Perkata ( Contoh: batman ) ....."
+            placeholderTextColor={colors.text.secondary}
+            value={searchTextInput}
+            onChangeText={text => {
+              setSearchTextInput(text);
+            }}
+            onDelete={() => setSearchTextInput('')}
+          />
+          <View style={[styles.wrapperCard, {flex: 1}]}>
+            <CarouselRN
+              autoPlay={true}
+              duration={1000}
+              data={movieCarousel}
+              onSnapToItem={index => setIndexCarousel(index)}
+              renderItem={renderItemCarousel}
+            />
+          </View>
+          <Gap height={8} />
+          <View style={styles.wrapperCard}>{renderCardMovie}</View>
+        </>
+      ) : (
+        <View
+          style={[
+            styles.page,
+            {
+              paddiHorizontal: -8,
+              height,
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          ]}>
+          <Loading size="large" />
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -96,10 +172,10 @@ export default Home;
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.white,
     paddingHorizontal: 8,
   },
-  wrapperCardMovie: {
+  wrapperCard: {
     marginHorizontal: -8,
   },
 });

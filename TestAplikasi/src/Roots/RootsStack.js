@@ -1,5 +1,5 @@
-import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
 import {Detail, PlayVideo, SplashScreen} from './../Pages';
 import {MainTab} from './TabNavigator';
 
@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 const RootStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="SplashScreen"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="Detail" component={Detail} />

@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Gap from '../Gap';
+import {colors, fonts} from '../../../Utils';
 
 const SubCategory = ({children, titleCategory}) => {
   return (
@@ -13,20 +13,23 @@ const SubCategory = ({children, titleCategory}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-        <Text style={{color: 'black'}}>{titleCategory}</Text>
+        <Text
+          style={{
+            color: colors.text.secondary,
+            fontFamily: fonts.primary['700'],
+          }}>
+          {titleCategory}
+        </Text>
         <Icon.Button
           name="th-large"
           size={20}
-          backgroundColor="white"
+          backgroundColor={colors.background.white}
           color="grey"
         />
       </View>
       {children}
-      <Gap height={10} />
     </>
   );
 };
 
 export default SubCategory;
-
-const styles = StyleSheet.create({});

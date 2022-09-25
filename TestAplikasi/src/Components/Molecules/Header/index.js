@@ -1,8 +1,9 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import {colors} from '../../../Utils';
 import Search from '../Search';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Header = ({
   placeholder,
@@ -20,7 +21,6 @@ const Header = ({
         onChangeText={onChangeText}
         onDelete={onDelete}
       />
-      <Text>Header</Text>
     </View>
   );
 };
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     width,
-    height: 50,
-    backgroundColor: 'grey',
+    height: 60,
+    backgroundColor: colors.background.primary,
     marginLeft: -8,
     justifyContent: 'center',
     alignItems: 'center',
