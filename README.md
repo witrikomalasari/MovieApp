@@ -1,4 +1,11 @@
 # MovieApp
+# MovieApp
+
+Langkah-langkah menginstall dan menjalankan aplikasi
+
+Beberapa hal yang harus kamu persiapkan sebelum memulai semua ini.
+
+Sebelum memulai menyentuh repository, pastikan komputer anda sudah memiliki berikut ini:
 
 - sudah Download & install Android Studio [Download Android studio](https://developer.android.com/studio)
 - sudah Download & install Node.js & NPM [Download Node.js](https://nodejs.org)
