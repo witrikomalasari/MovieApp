@@ -6,6 +6,7 @@ const initialState = {
   detail: [],
   video: [],
   movieId: [],
+  listWatch: [],
 };
 
 export const moviesReducer = (state = initialState, action) => {
@@ -46,6 +47,11 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         movieId: value,
+      };
+    case 'LIST_WATCH':
+      return {
+        ...state,
+        listWatch: value,
       };
   }
   return state;

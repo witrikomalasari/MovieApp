@@ -21,11 +21,10 @@ const PlayVideo = () => {
     setPlaying(prev => !prev);
   }, []);
 
-  // console.log('movieKey', movieKey);
-
   return (
     <View style={{flex: 1, backgroundColor: '#020202'}}>
       <Gap height={20} />
+
       <YoutubePlayer
         height={200}
         play={playing}
