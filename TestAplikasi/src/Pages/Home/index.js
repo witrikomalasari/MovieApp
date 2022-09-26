@@ -23,10 +23,7 @@ const {height} = Dimensions.get('window');
 const Home = props => {
   const dispatch = useDispatch();
   const [searchTextInput, setSearchTextInput] = useState('');
-  const [movieCarousel, setMovieCarousel] = useState([]);
   const loading = useSelector(state => state.globalReducer.isLoading);
-  const auth = useSelector(state);
-  const [indexCarousel, setIndexCarousel] = useState();
   const movies = [
     {
       title: 'TOP RATED',
@@ -43,10 +40,7 @@ const Home = props => {
     },
   ];
 
-  useEffect(() => {}, [third]);
-
   useEffect(() => {
-    handleMovieForCarousel();
     dispatch(getTopRatedAction());
     dispatch(getPopularAction());
     dispatch(getNowPlayingAction());
@@ -87,21 +81,12 @@ const Home = props => {
     />
   ));
 
-  const allDataNowPlaying = movies[2].data;
-  const movieForCarousel = allDataNowPlaying.slice(0, 5);
-  // console.log('dfadER', movieForCarousel);
-
-  const handleMovieForCarousel = () => {
-    setMovieCarousel(movieForCarousel);
-  };
-
   const renderItemCarousel = ({item, index}) => {
     return (
       <View
         style={{
           flex: 1,
           justifyContent: 'center',
-          backgroundColor: 'green',
         }}>
         <ImageBackground
           source={{uri: `${IMAGE_URL}${item.backdrop_path}`}}
@@ -111,9 +96,9 @@ const Home = props => {
               color: colors.text.white,
               fontSize: 20,
               fontWeight: 'bold',
-              // textAlign: 'center',
               paddingTop: 5,
               paddingLeft: 10,
+              top: 140,
             }}>
             {item.title}
           </Text>
@@ -139,8 +124,8 @@ const Home = props => {
             <CarouselRN
               autoPlay={true}
               duration={1000}
-              data={movieCarousel}
-              onSnapToItem={index => setIndexCarousel(index)}
+              data={movies[0].data}
+              // onSnapToItem={index => setIndexCarousel(index)}
               renderItem={renderItemCarousel}
             />
           </View>

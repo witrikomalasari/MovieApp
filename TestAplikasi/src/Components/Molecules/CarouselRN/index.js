@@ -24,6 +24,12 @@ const CarouselRN = ({
         onSnapToItem={onSnapToItem}
         renderItem={renderItem}
         style={style}
+        mode="parallax"
+        modeConfig={{
+          parallaxScrollingScale: 0.8,
+          parallaxScrollingOffset: 95,
+        }}
+        pagingEnabled={true}
       />
     </View>
   );

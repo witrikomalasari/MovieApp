@@ -96,3 +96,12 @@ export const movieKey = videoID => async dispatch => {
     console.log('video tuk playvideo tidak dapat', error);
   }
 };
+
+export const listWatchMovie = video => async dispatch => {
+  const listVideo = [...video, video];
+
+  return await dispatch({
+    type: 'LIST_WATCH',
+    value: listVideo,
+  });
+};

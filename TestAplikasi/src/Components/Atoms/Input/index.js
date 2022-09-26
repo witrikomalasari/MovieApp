@@ -26,7 +26,7 @@ export default Input;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: colors.background.grey,
     justifyContent: 'center',
     borderColor: 'black',
@@ -39,6 +39,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.primary['400'],
     color: colors.text.primary,
     marginLeft: 30,
-    backgroundColor: 'red',
   },
 });

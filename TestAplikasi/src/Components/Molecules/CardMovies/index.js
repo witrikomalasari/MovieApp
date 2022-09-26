@@ -16,10 +16,11 @@ import {Gap, SubCategory} from '../../Atoms';
 const {width} = Dimensions.get('window');
 
 const CardMovies = props => {
-  const handleToMovieDetail = async movieId => {
-    // dispatch(setLoading(true));
+  const handleToMovieDetail = async movieData => {
+    // // dispatch(setLoading(true));
+    // console.log('movieee', movieId);
     props.navigation.navigate('Detail', {
-      movieId,
+      movieData,
     });
   };
 
@@ -28,29 +29,30 @@ const CardMovies = props => {
     return releaseDate;
   };
 
-  const renderPoster = ({item}) => (
-    // console.log('item', item);
-    <TouchableOpacity
-      style={styles.content}
-      onPress={() => {
-        handleToMovieDetail(item.id);
-      }}>
-      <Image
-        source={{
-          uri: `${IMAGE_URL}${item.poster_path}`,
-        }}
-        style={styles.image}
-      />
-      <Gap height={5} />
-      <Text style={styles.txt} numberOfLines={2} ellipsizeMode="tail">
-        {item.title}
-      </Text>
-      <Gap height={2} />
-      <Text style={[styles.txt, {fontSize: 11}]}>
-        {handleReleaseDate(item.release_date)}
-      </Text>
-    </TouchableOpacity>
-  );
+  const renderPoster = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={styles.content}
+        onPress={() => {
+          handleToMovieDetail(item);
+        }}>
+        <Image
+          source={{
+            uri: `${IMAGE_URL}${item.poster_path}`,
+          }}
+          style={styles.image}
+        />
+        <Gap height={5} />
+        <Text style={styles.txt} numberOfLines={2} ellipsizeMode="tail">
+          {item.title}
+        </Text>
+        <Gap height={2} />
+        <Text style={[styles.txt, {fontSize: 11}]}>
+          {handleReleaseDate(item.release_date)}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>

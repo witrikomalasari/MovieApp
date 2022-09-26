@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {ModalRN} from '../../Components';
-import {Gap} from '../../Components/Atoms';
+import {ModalRn, Gap, ModalRN} from '../../Components';
 import {IMAGE_URL} from '../../Config/API_Host';
 import {
   getDetailMovie,
@@ -29,7 +29,8 @@ const Detail = props => {
   const [rating, setIsLike] = useState();
   const [isShow, setIsShow] = useState(false);
 
-  const movieID = props.route.params.movieId;
+  const movieID = props.route.params.movieData.id;
+  const movieAllData = props.route.params.movieData;
   const movieVideo = video.map(vid => vid.key);
 
   useEffect(() => {
@@ -37,8 +38,6 @@ const Detail = props => {
     dispatch(getVideoMovie(movieID));
     // dispatch(movieKey(movieVideo[0]));
   }, [movieID]);
-
-  console.log('movieVideo', movieVideo[0]);
 
   const renderHeaderSection = () => (
     <ImageBackground
@@ -100,8 +99,8 @@ const Detail = props => {
             },
           ]}
           onPress={async () => {
+            // setLoading(false);
             await dispatch(movieKey(movieVideo));
-            // await dispatch(setLoading(true));
             props.navigation.navigate('PlayVideo');
           }}>
           <AntDesign name="caretright" color="white" size={35} />
@@ -138,6 +137,7 @@ const Detail = props => {
           paddingBottom: 40,
         }}>
         {renderHeaderSection()}
+        <Gap height={10} />
         <View style={{marginHorizontal: 10}}>
           <View
             style={{
@@ -158,11 +158,17 @@ const Detail = props => {
             </Text>
             <View
               style={{
+                flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
                 paddingRight: 12,
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: 60,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <AntDesign
                   name="like1"
                   size={30}
@@ -178,8 +184,37 @@ const Detail = props => {
                   Like
                 </Text>
               </TouchableOpacity>
+              <Gap width={20} />
+              <TouchableOpacity
+                style={{
+                  width: 60,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <MaterialIcon
+                  name="movie-filter"
+                  size={30}
+                  color="black"
+                  // onPress={() => {
+                  //   props.navigation.navigate('WatchList', {
+                  //     movieAllData,
+                  //   });
+                  // }}
+                />
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: colors.text.primary,
+                    fontFamily: fonts.primary['700'],
+                    textAlign: 'center',
+                    // maxWidth: 50,
+                  }}>
+                  Add {'\n'} WatchList
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
+          <Gap height={10} />
           <Text
             style={{
               fontSize: 14,
@@ -192,11 +227,13 @@ const Detail = props => {
         </View>
       </ScrollView>
       <ModalRN
-        transparant={true}
+        // transparant={true}
         visible={isShow}
-        onPress={() => {
-          setIsShow(!isShow);
-        }}
+        // onPress={() => {
+        //   console.log('coba');
+        //   setIsShow(!isShow);
+        // }}
+        style={{height: 100, backgroundColor: 'red'}}
       />
     </>
   );

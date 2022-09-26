@@ -2,18 +2,13 @@ import React, {useEffect} from 'react';
 import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native';
 import {splash} from '../../Assets';
 import {Gap} from '../../Components';
-import {getDataLocalStorage} from '../../Utils/storage';
 
 const {width, height} = Dimensions.get('window');
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      getDataLocalStorage('token').then(res => {
-        res
-          ? navigation.reset({index: 0, routes: [{name: 'MainTab'}]})
-          : navigation.replace('Login');
-      });
+      navigation.reset({index: 0, routes: [{name: 'MainTab'}]});
     }, 2000);
   }, []);
 

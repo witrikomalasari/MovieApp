@@ -1,14 +1,14 @@
 import React from 'react';
 import {Modal, Text, TouchableOpacity, View} from 'react-native';
 
-const ModalRn = ({transparant, visible, Children, style, onPress}) => {
+const ModalRN = ({transparant, visible, Children, style, onPress}) => {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Modal
-        // style={style}
         animationType="slide"
         transparent={transparant}
-        visible={visible}>
+        visible={visible}
+        style={[{height: 200, backgroundColor: 'red'}, style]}>
         <View
           style={{
             height: 100,
@@ -24,4 +24,4 @@ const ModalRn = ({transparant, visible, Children, style, onPress}) => {
   );
 };
 
-export default ModalRn;
+export default ModalRN;
