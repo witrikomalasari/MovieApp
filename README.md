@@ -1,5 +1,4 @@
 # MovieApp
-# MovieApp
 
 Langkah-langkah menginstall dan menjalankan aplikasi
 
