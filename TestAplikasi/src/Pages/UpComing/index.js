@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Profile = () => {
+const UpComing = () => {
   return (
     <View>
-      <Text>Profile</Text>
+      <Text style={{color: 'red'}}>UpComing</Text>
     </View>
   );
 };
 
-export default Profile;
+export default UpComing;
 
 const styles = StyleSheet.create({});

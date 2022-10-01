@@ -1,6 +1,7 @@
 import moment from 'moment/moment';
 import React from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -9,7 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {IMAGE_URL} from '../../../Config/API_Host';
+import {setLoading} from '../../../Redux/Actions';
 import {colors, fonts} from '../../../Utils';
 import {Gap, SubCategory} from '../../Atoms';
 
@@ -17,8 +20,6 @@ const {width} = Dimensions.get('window');
 
 const CardMovies = props => {
   const handleToMovieDetail = async movieData => {
-    // // dispatch(setLoading(true));
-    // console.log('movieee', movieId);
     props.navigation.navigate('Detail', {
       movieData,
     });
@@ -30,6 +31,7 @@ const CardMovies = props => {
   };
 
   const renderPoster = ({item}) => {
+    // console.log('item', item);
     return (
       <TouchableOpacity
         style={styles.content}
@@ -40,6 +42,7 @@ const CardMovies = props => {
           source={{
             uri: `${IMAGE_URL}${item.poster_path}`,
           }}
+          resizeMode="cover"
           style={styles.image}
         />
         <Gap height={5} />
@@ -54,9 +57,15 @@ const CardMovies = props => {
     );
   };
 
+  // console.log('loading', isLoading);
+
   return (
     <View style={styles.container}>
-      <SubCategory titleCategory={props.titleCategory} />
+      <Gap height={30} />
+      <SubCategory
+        titleCategory={props.titleCategory}
+        navigation={props.onPress}
+      />
       {props.data.length > 0 ? (
         <FlatList
           data={props.data}
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: width - 270,
-    height: 210,
+    height: 230,
     backgroundColor: colors.background.white,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -94,9 +103,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 140,
+    height: '80%',
     borderRadius: 8,
-    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   txt: {
     color: colors.text.primary,

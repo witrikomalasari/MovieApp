@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {ModalRn, Gap, ModalRN} from '../../Components';
+import {Gap, ModalRN} from '../../Components';
 import {IMAGE_URL} from '../../Config/API_Host';
 import {
   getDetailMovie,
@@ -23,20 +23,18 @@ import {colors, fonts} from '../../Utils';
 const Detail = props => {
   const dispatch = useDispatch();
   const detailMovie = useSelector(state => state.moviesReducer.detail);
-  const loading = useSelector(state => state.globalReducer);
+  // const loading = useSelector(state => state.globalReducer);
   const {video} = useSelector(state => state.moviesReducer);
 
-  const [rating, setIsLike] = useState();
+  const [rating, setIsLike] = useState(1);
   const [isShow, setIsShow] = useState(false);
 
   const movieID = props.route.params.movieData.id;
-  const movieAllData = props.route.params.movieData;
   const movieVideo = video.map(vid => vid.key);
 
   useEffect(() => {
     dispatch(getDetailMovie(movieID));
     dispatch(getVideoMovie(movieID));
-    // dispatch(movieKey(movieVideo[0]));
   }, [movieID]);
 
   const renderHeaderSection = () => (
@@ -99,7 +97,6 @@ const Detail = props => {
             },
           ]}
           onPress={async () => {
-            // setLoading(false);
             await dispatch(movieKey(movieVideo));
             props.navigation.navigate('PlayVideo');
           }}>
@@ -133,7 +130,6 @@ const Detail = props => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          // backgroundColor: 'green',
           paddingBottom: 40,
         }}>
         {renderHeaderSection()}
@@ -168,20 +164,17 @@ const Detail = props => {
                   width: 60,
                   justifyContent: 'center',
                   alignItems: 'center',
-                }}>
-                <AntDesign
-                  name="like1"
-                  size={30}
-                  color="black"
-                  onPress={() => setIsShow(isShow)}
-                />
+                }}
+                onPress={() => setIsShow(!isShow)}>
+                <AntDesign name="like1" size={30} color="black" />
+                <Gap height={5} />
                 <Text
                   style={{
                     color: colors.text.primary,
                     fontFamily: fonts.primary['700'],
                     textAlign: 'center',
                   }}>
-                  Like
+                  Rate
                 </Text>
               </TouchableOpacity>
               <Gap width={20} />
@@ -226,14 +219,15 @@ const Detail = props => {
           </Text>
         </View>
       </ScrollView>
+      {console.log('coba', isShow)}
       <ModalRN
-        // transparant={true}
+        transparent={true}
         visible={isShow}
-        // onPress={() => {
-        //   console.log('coba');
-        //   setIsShow(!isShow);
-        // }}
-        style={{height: 100, backgroundColor: 'red'}}
+        title="Rating"
+        number={5}
+        onPress={() => {
+          setIsShow(!isShow);
+        }}
       />
     </>
   );

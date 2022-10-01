@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Profile = () => {
+const TopRated = () => {
   return (
     <View>
-      <Text>Profile</Text>
+      <Text style={{color: 'red'}}>TopRated</Text>
     </View>
   );
 };
 
-export default Profile;
+export default TopRated;
 
 const styles = StyleSheet.create({});

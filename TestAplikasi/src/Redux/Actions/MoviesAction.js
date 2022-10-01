@@ -1,9 +1,10 @@
 import Axios from 'axios';
 import {API_KEY, API_URL} from '../../Config/API_Host';
+import {setLoading} from './globalAction';
 
 export const getPopularAction = () => async dispatch => {
   let urlAPI = `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-
+  // dispatch(setLoading(true));
   try {
     const response = await Axios.get(urlAPI);
     // console.log('resultPOPULAR', JSON.stringify(response, null, 2));
@@ -59,15 +60,18 @@ export const getUpComingAction = () => async dispatch => {
 };
 
 export const getDetailMovie = movieID => async dispatch => {
+  dispatch(setLoading(true));
   let urlAPI = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=en-US`;
   try {
     const responseDetail = await Axios.get(urlAPI);
-
+    // responseDetail.then(response => console.log('response detail', response));
+    dispatch(setLoading(false));
     return dispatch({
       type: 'SET_DETAIL_MOVIE',
       value: responseDetail?.data,
     });
   } catch (error) {
+    dispatch(setLoading(false));
     console.log('DATA DETAIL TIDAK DAPAT', error);
   }
 };
@@ -98,7 +102,7 @@ export const movieKey = videoID => async dispatch => {
 };
 
 export const listWatchMovie = video => async dispatch => {
-  const listVideo = [...video, video];
+  const listVideo = [...video, ...video];
 
   return await dispatch({
     type: 'LIST_WATCH',

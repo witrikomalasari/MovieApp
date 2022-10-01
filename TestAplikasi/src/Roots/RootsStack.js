@@ -1,6 +1,14 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {Detail, PlayVideo, SplashScreen} from './../Pages';
+import {
+  Detail,
+  NowPlaying,
+  PlayVideo,
+  Popular,
+  SplashScreen,
+  TopRated,
+  UpComing,
+} from './../Pages';
 import {MainTab} from './TabNavigator';
 
 const Stack = createStackNavigator();
@@ -14,6 +22,10 @@ const RootStack = () => {
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="MainTab" component={MainTab} />
       <Stack.Screen name="PlayVideo" component={PlayVideo} />
+      <Stack.Screen name="TopRated" component={TopRated} />
+      <Stack.Screen name="Popular" component={Popular} />
+      <Stack.Screen name="NowPlaying" component={NowPlaying} />
+      <Stack.Screen name="UpComing" component={UpComing} />
     </Stack.Navigator>
   );
 };

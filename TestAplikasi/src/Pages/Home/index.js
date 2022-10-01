@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {CardMovies, CarouselRN, Gap, Header, Loading} from '../../Components';
 import {IMAGE_URL} from '../../Config/API_Host';
@@ -23,19 +24,22 @@ const {height} = Dimensions.get('window');
 const Home = props => {
   const dispatch = useDispatch();
   const [searchTextInput, setSearchTextInput] = useState('');
-  const loading = useSelector(state => state.globalReducer.isLoading);
+  const isLoading = useSelector(state => state.globalReducer);
   const movies = [
     {
-      title: 'TOP RATED',
+      title: 'Top Rated',
       data: useSelector(state => state.moviesReducer.topRated),
     },
-    {title: 'POPULAR', data: useSelector(state => state.moviesReducer.popular)},
     {
-      title: 'NOW PLAYING',
+      title: 'Popular',
+      data: useSelector(state => state.moviesReducer.popular),
+    },
+    {
+      title: 'Now Playing',
       data: useSelector(state => state.moviesReducer.nowPlaying),
     },
     {
-      title: 'UP COMING',
+      title: 'Up Coming',
       data: useSelector(state => state.moviesReducer.upComing),
     },
   ];
@@ -68,18 +72,34 @@ const Home = props => {
     return filterMovies;
   };
 
-  const renderCardMovie = movies.map((movie, i) => (
-    <CardMovies
-      key={i}
-      titleCategory={movie.title}
-      data={
-        searchTextInput.length > 0
-          ? handleFilterMovie(movie.data)
-          : movie.data.slice(0, 10)
-      }
-      navigation={props.navigation}
-    />
-  ));
+  const renderCardMovie = movies.map((movie, i) => {
+    // console.log('dafd', JSON.stringify(movie, null, 2));
+
+    const title = movie.title.replace(' ', '');
+
+    return (
+      <View key={i}>
+        {isLoading && movie.data.length > 0 ? (
+          <CardMovies
+            key={i}
+            titleCategory={movie.title}
+            data={
+              searchTextInput.length > 0
+                ? handleFilterMovie(movie.data)
+                : movie.data.slice(0, 10)
+            }
+            navigation={props.navigation}
+            onPress={() => props.navigation.navigate(title)}
+          />
+        ) : (
+          <View key={i}>
+            <ActivityIndicator size="small" key={movie.data.id} />
+            <Text style={{color: 'black'}}>Sedang memuat...</Text>
+          </View>
+        )}
+      </View>
+    );
+  });
 
   const renderItemCarousel = ({item, index}) => {
     return (
@@ -90,7 +110,8 @@ const Home = props => {
         }}>
         <ImageBackground
           source={{uri: `${IMAGE_URL}${item.backdrop_path}`}}
-          style={{flex: 1}}>
+          style={{flex: 1}}
+          resizeMode="cover">
           <Text
             style={{
               color: colors.text.white,
@@ -107,45 +128,30 @@ const Home = props => {
     );
   };
 
+  // console.log('adgad', JSON.stringify(movies[0].data, null, 2));
   return (
     <ScrollView contentContainerStyle={styles.page}>
-      {!loading ? (
-        <>
-          <Header
-            placeholder="Cari Perkata ( Contoh: batman ) ....."
-            placeholderTextColor={colors.text.secondary}
-            value={searchTextInput}
-            onChangeText={text => {
-              setSearchTextInput(text);
-            }}
-            onDelete={() => setSearchTextInput('')}
-          />
-          <View style={[styles.wrapperCard, {flex: 1}]}>
-            <CarouselRN
-              autoPlay={true}
-              duration={1000}
-              data={movies[0].data}
-              // onSnapToItem={index => setIndexCarousel(index)}
-              renderItem={renderItemCarousel}
-            />
-          </View>
-          <Gap height={8} />
-          <View style={styles.wrapperCard}>{renderCardMovie}</View>
-        </>
-      ) : (
-        <View
-          style={[
-            styles.page,
-            {
-              paddiHorizontal: -8,
-              height,
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          ]}>
-          <Loading size="large" />
-        </View>
-      )}
+      <Header
+        placeholder="Search movie ....."
+        placeholderTextColor={colors.text.secondary}
+        value={searchTextInput}
+        onChangeText={text => {
+          setSearchTextInput(text);
+        }}
+        onDelete={() => setSearchTextInput('')}
+      />
+      <View style={[styles.wrapperCard, {flex: 1}]}>
+        <CarouselRN
+          key={movies[0].id}
+          autoPlay={true}
+          duration={1000}
+          data={movies[0].data}
+          // onSnapToItem={index => setIndexCarousel(index)}
+          renderItem={renderItemCarousel}
+        />
+      </View>
+      <View style={styles.wrapperCard}>{renderCardMovie}</View>
+      <Gap height={20} />
     </ScrollView>
   );
 };

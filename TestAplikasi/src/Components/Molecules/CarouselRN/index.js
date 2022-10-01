@@ -5,6 +5,7 @@ import Carousel from 'react-native-reanimated-carousel';
 const {width, height} = Dimensions.get('window');
 
 const CarouselRN = ({
+  key,
   autoPlay,
   data,
   duration,
@@ -15,6 +16,7 @@ const CarouselRN = ({
   return (
     <View style={{flex: 1}}>
       <Carousel
+        key={key}
         loop
         width={width}
         height={height / 3.5}

@@ -1,13 +1,16 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import {colors, fonts} from '../../../Utils';
+import {Gap} from '../../Atoms';
 
 const {width} = Dimensions.get('window');
-const Loading = ({size}) => {
+
+const Loading = ({size, type}) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={size} color={colors.loading} />
+      <ActivityIndicator size="large" color={colors.loading} />
+      <Gap height={10} />
       <Text style={styles.text}>Loading...</Text>
     </View>
   );
@@ -21,12 +24,14 @@ const styles = StyleSheet.create({
     height: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // bottom: 0,
+    top: 0,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   text: {
     fontSize: 18,
-    color: colors.text.primary,
+    color: colors.text.white,
     fontFamily: fonts.primary['700'],
     marginTop: 40,
   },
